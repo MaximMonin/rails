@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  file: MyText
+  filepreview: MyText
+  filename: MyText
+  filetype: MyText
+  filesize: 1
+
+two:
+  user: two
+  file: MyText
+  filepreview: MyText
+  filename: MyText
+  filetype: MyText
+  filesize: 1
