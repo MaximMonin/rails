@@ -8,6 +8,7 @@ require("@rails/activestorage").start()
 require("channels")
 
 require('../add_bootstrap');
+require('../add_other');
 require('../add_vue');
 
 

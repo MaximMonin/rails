@@ -8,12 +8,16 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_pack_tag 'application' %>
+    <%= stylesheet_packs_with_chunks_tag 'application' %>
+    <%= javascript_packs_with_chunks_tag 'application' %>
   </head>
 
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>
+    <% if content_for?(:javascript) %>
+       <%= yield :javascript%>
+    <% end %>
   </body>
 </html>
