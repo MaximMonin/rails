@@ -4,8 +4,7 @@
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-window.Vue = require('vue');
-
+import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 Vue.use(BootstrapVue); 
 
