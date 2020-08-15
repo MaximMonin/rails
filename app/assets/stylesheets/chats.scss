@@ -1,3 +1,25 @@
 // Place all the styles related to the Chats controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.room-nav-link {
+  border: 1px solid lighten($primary, 40%);
+  background: lighten($primary, 45%);
+
+  & + .room-nav-link {
+    border-top: 0 none;
+  }
+}
+.panel-heading {
+    height: 20px
+}
+.panel-footer {
+    padding-top: 10px;
+    height: 50px
+}
+.panel-body {
+    position: relative;
+    height: 700px;
+    background: aliceblue;
+}
