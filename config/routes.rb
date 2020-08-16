@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   match '/locale/:locale' => "locale#set", via: [:get, :post]
+  get '/user_files/videos' => "user_files#video"
+  get '/user_files/photos' => "user_files#photo"
+  get '/user_files/docs'   => "user_files#doc"
+  get '/initstore'         => "welcome#initstore"
+
   root controller: :welcome, action: :index
   default_url_options :host => ENV['VIRTUAL_HOST']
 end

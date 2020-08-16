@@ -97,7 +97,7 @@ export default {
           return text[this.lang];
         },
         fetchFiles () {
-          axios.get('/user/docs').then(response => {
+          axios.get('/user_files/docs').then(response => {
             if (response !== null) {
               var i;
               var j;
@@ -141,7 +141,7 @@ export default {
            if (visible + scrollY + 100 >= pageHeight && this.isLoading == false && this.allPages == false) 
            {
              this.isLoading = true;
-             axios.get('/user/docs?page=' + (this.pages + 1) ).then(response => {
+             axios.get('/user_files/docs?page=' + (this.pages + 1) ).then(response => {
                if (response !== null) {
                  var i;
                  var j;

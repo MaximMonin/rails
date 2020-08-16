@@ -88,7 +88,7 @@ export default {
           return text[this.lang];
         },
         fetchFiles () {
-          axios.get('/user/photos').then(response => {
+          axios.get('/user_files/photos').then(response => {
             if (response !== null) {
               var i;
               var j;
@@ -132,7 +132,7 @@ export default {
            if (visible + scrollY + 100 >= pageHeight && this.isLoading == false && this.allPages == false) 
            {
              this.isLoading = true;
-             axios.get('/user/photos?page=' + (this.pages + 1) ).then(response => {
+             axios.get('/user_files/photos?page=' + (this.pages + 1) ).then(response => {
                if (response !== null) {
                  var i;
                  var j;

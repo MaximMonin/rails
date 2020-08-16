@@ -180,13 +180,13 @@ export default {
               + ':' + this.pad2(dt.getSeconds()) + '.000000Z';
             message.created_at = dtstring;
 
-            axios.post('/user/chat/messages', message).then(response => {});
+            axios.post('/chat_messages', message).then(response => {});
         },
         scrollToBottom () {
             this.$refs.id.scrollTop = this.$refs.id.scrollHeight;
         },
         fetchMessages () {
-          axios.get('/user/chat/messages').then(response => {
+          axios.get('/chat_messages').then(response => {
             if (response !== null) {
               var i;
               for (i = 0; i < response.data.length; i++) {
@@ -200,7 +200,7 @@ export default {
            if (this.$refs.id.scrollTop < 500 && this.isLoading == false && this.allPages == false) 
            {
              this.isLoading = true;
-             axios.get('/user/chat/messages?page=' + (this.pages + 1) ).then(response => {
+             axios.get('/chat_messages?page=' + (this.pages + 1) ).then(response => {
                if (response !== null) {
                  var i;
                  var j;
