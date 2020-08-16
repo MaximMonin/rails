@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-12 col-md-3">
+    <%= render partial: 'chats' %>
+  </div>
+
+  <div class="col">
+    <h1>
+        <%= @chat.name %>
+    </h1>
+    <div class="border panel-body" id="chatContainer">
+       <chat-messages></chat-messages>
+    </div>
+    <div class="panel-footer">
+        <chat-form></chat-form>
+    </div>
+  </div>
+</div>
+

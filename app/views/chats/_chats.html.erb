@@ -1,0 +1,24 @@
+<div class="mb-3">
+  <%= link_to new_chat_path, class: "btn btn-primary" do %>
+    Create a chat
+  <% end %>
+</div>
+
+<% if @chats.present? %>
+  <nav class="nav flex-column">
+    <% @chats.each do |chat| %>
+      <%= link_to chat.name, chat_path(chat), class: "nav-link room-nav-link" %>
+    <% end %>
+  </nav>
+  <% if @chat.present? %>
+    <div class="mb-3">
+      <%= link_to edit_chat_path do %>
+        Edit chat name
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <div class="text-muted">
+    The are no chats
+  </div>
+<% end %>
