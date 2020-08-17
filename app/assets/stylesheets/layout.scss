@@ -9,3 +9,17 @@ html, body {
 .centered-and-cropped { 
     object-fit: cover; 
 }
+
+.notice {
+    width: 100%;
+    margin-top: 0.25rem;
+    color: #1d643b;
+    background-color: #d7f3e3;
+    border-color: #c7eed8;
+}
+.alert {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #e3342f;
+}
