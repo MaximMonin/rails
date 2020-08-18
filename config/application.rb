@@ -15,6 +15,9 @@ module App
     config.i18n.default_locale = :en
     config.i18n.locale = :en
 
+    config.action_cable.mount_path = '/websocket'
+    config.action_cable.allowed_request_origins = ['https://' + ENV['VIRTUAL_HOST'], 'http://railsnginx']
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading

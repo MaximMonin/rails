@@ -5,8 +5,9 @@ class ChatMessagesController < ApplicationController
   end
 
   def create
-    @room_message = RoomMessage.create user: current_user,
-                                       room: @room,
-                                       message: params.dig(:room_message, :message)
+    @chat_message = ChatMessage.create user: current_user,
+                                       chat: @chat,
+                                       message: params.dig(:chat_message, :message)
+    ChatChannel.broadcast_to @chat, @chat_message
   end
 end
