@@ -6,4 +6,6 @@ require('dropzone');
  */
 
 window.axios = require('axios');
+const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['X-CSRF-Token'] = csrf;
