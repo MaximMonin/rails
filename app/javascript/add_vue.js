@@ -37,9 +37,10 @@ const store = new Vuex.Store({
   }
 })
 Vue.use(ActionCableVue, {
-  debug: true,
+  debug: false,
   debugLevel: 'error',
-  connectImmediately: false,
+  connectionUrl: '/websocket', 
+  connectImmediately: true,
 });
 
 

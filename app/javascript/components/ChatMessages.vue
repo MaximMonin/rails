@@ -3,11 +3,11 @@
     <ul class="chat">
         <li class="left clearfix" v-for="message in orderedmessages">
            <div class="chatrow">
- 	     <div v-if="(message.user.avatar)">
-               <img class="centered-and-cropped" width="30" height="30" style="border-radius:50%" :src="message.user.avatar"> 
+ 	     <div v-if="(message.avatar)">
+               <img class="centered-and-cropped" width="30" height="30" style="border-radius:50%" :src="message.avatar"> 
 	     </div>
 	     <div v-else>
-               <b-avatar variant="info" :text="avatartext(message.user.name)"></b-avatar>
+               <b-avatar variant="info" :text="avatartext(message.username)"></b-avatar>
 	     </div>
              <p>
                   {{ message.message }}
@@ -86,6 +86,7 @@
 </style>
 <script>
 export default {
+  props: ['chat'],
   data: function () {
     return {
       messages: [],
@@ -98,42 +99,40 @@ export default {
     user: function () {
       return this.$store.state.user;
     },
-    baseurl: function () {
-      return this.$store.state.baseurl;
-    },
     orderedmessages: function () {
       return _.orderBy(this.messages, 'id')
-    },
-    timezone: function () {
-      return this.$store.state.timezone;  // in minutes (+3 = 180)
-    },
-    maxid: function () {
-      if (this.orderedmessages !== null && this.messages.length > 0 ) {
-        return this.orderedmessages[this.messages.length - 1].id;
-      }
-      return 0;
     },
   },
   beforeDestroy() {
      this.$cable.connection.disconnect();
   },
+  channels: {
+    chat_channel_private: {
+      received(data) {
+        this.messages.push({
+             id: data.message.id,
+             message: data.message.message,
+             files: data.message.files,
+             created_at: data.message.created_at,
+             username: data.username,
+             avatar: data.avatar,
+           });
+      }
+    }
+  },
   mounted() {
-     this.$cable.connection.connect( 'ws://fr4.milkiland.org' + '/websocket');
+     this.$cable.connection.connect();
+     this.$cable.subscribe({
+        channel: 'ChatChannel',
+        chat: this.chat
+      },
+      'chat_channel_private'
+     );
+
      this.fetchMessages ();
 
-//     Echo.private('chat.0')
-//        .listen('ChatMessage', (e) => {
-//           this.messages.push({
-//             id: e.message.id,
-//             message: e.message.message,
-//             files: e.message.files,
-//             created_at: e.message.created_at,
-//             user: e.user,
-//           });
-//        });
-
      Event.listen('newchatmessage', (message) => {
-       this.addMessage(message)
+       this.PostMessage(message)
      });
 
      this.scrollToBottom();
@@ -170,23 +169,9 @@ export default {
            } 
            return str;
         },
-        addMessage(message) {
-            message.id = this.maxid + 1;
-            this.messages.push(message);
-
+        PostMessage(message) {
             var files = message.files;
             message.files = JSON.stringify(files);
-
-            var d = message.created_at;
-            var MS_PER_MINUTE = 60000;
-            var dt = new Date(d.getTime() - this.timezone * MS_PER_MINUTE);
-            var dtstring = dt.getFullYear()
-              + '-' + this.pad2(dt.getMonth()+1)
-              + '-' + this.pad2(dt.getDate())
-              + 'T' + this.pad2(dt.getHours())
-              + ':' + this.pad2(dt.getMinutes())
-              + ':' + this.pad2(dt.getSeconds()) + '.000000Z';
-            message.created_at = dtstring;
 
             axios.post('/chat_messages', message).then(response => {});
         },
@@ -194,7 +179,7 @@ export default {
             this.$refs.id.scrollTop = this.$refs.id.scrollHeight;
         },
         fetchMessages () {
-          axios.get('/chat_messages').then(response => {
+          axios.get('/chat_messages/' + this.chat + '?page=1' ).then(response => {
             if (response !== null) {
               var i;
               for (i = 0; i < response.data.length; i++) {
@@ -208,7 +193,7 @@ export default {
            if (this.$refs.id.scrollTop < 500 && this.isLoading == false && this.allPages == false) 
            {
              this.isLoading = true;
-             axios.get('/chat_messages?page=' + (this.pages + 1) ).then(response => {
+             axios.get('/chat_messages/' + this.chat + '?page=' + (this.pages + 1) ).then(response => {
                if (response !== null) {
                  var i;
                  var j;

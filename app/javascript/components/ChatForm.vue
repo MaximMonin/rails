@@ -27,6 +27,7 @@ input[type="file"] {
 </style>
 <script>
   export default {
+    props: ['chat'],
     data() {
         return {
             newMessage: '',
@@ -115,9 +116,11 @@ input[type="file"] {
         if (this.newMessage || this.files.length > 0) {
                   Event.emit('newchatmessage', {
                     user: this.user,
+                    username: this.user.username,
+                    avatar: this.user.avatar,
                     message: this.newMessage,
                     files: this.files,
-                    id: 0,
+                    chat_id: this.chat,
                     created_at: new Date(),
                   });
         }
