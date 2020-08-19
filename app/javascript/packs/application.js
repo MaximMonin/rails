@@ -5,7 +5,8 @@
 
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
-require("channels")
+// Using actioncable-vue
+// require("channels")
 
 require('../add_bootstrap');
 require('../add_other');

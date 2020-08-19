@@ -6,6 +6,7 @@
 
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
+import ActionCableVue from 'actioncable-vue';
 Vue.use(BootstrapVue); 
 
 import Vuex from 'vuex';
@@ -35,6 +36,12 @@ const store = new Vuex.Store({
     },
   }
 })
+Vue.use(ActionCableVue, {
+  debug: true,
+  debugLevel: 'error',
+  connectImmediately: false,
+});
+
 
 // Vue event bus
 window.Event = new class {

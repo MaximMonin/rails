@@ -98,6 +98,9 @@ export default {
     user: function () {
       return this.$store.state.user;
     },
+    baseurl: function () {
+      return this.$store.state.baseurl;
+    },
     orderedmessages: function () {
       return _.orderBy(this.messages, 'id')
     },
@@ -111,18 +114,23 @@ export default {
       return 0;
     },
   },
+  beforeDestroy() {
+     this.$cable.connection.disconnect();
+  },
   mounted() {
+     this.$cable.connection.connect( 'ws://fr4.milkiland.org' + '/websocket');
      this.fetchMessages ();
-     Echo.private('chat.0')
-        .listen('ChatMessage', (e) => {
-           this.messages.push({
-             id: e.message.id,
-             message: e.message.message,
-             files: e.message.files,
-             created_at: e.message.created_at,
-             user: e.user,
-           });
-        });
+
+//     Echo.private('chat.0')
+//        .listen('ChatMessage', (e) => {
+//           this.messages.push({
+//             id: e.message.id,
+//             message: e.message.message,
+//             files: e.message.files,
+//             created_at: e.message.created_at,
+//             user: e.user,
+//           });
+//        });
 
      Event.listen('newchatmessage', (message) => {
        this.addMessage(message)
