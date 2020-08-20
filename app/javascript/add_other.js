@@ -1,4 +1,4 @@
-require('dropzone');
+window.Dropzone = require('dropzone');
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our back-end. This library automatically handles sending the
