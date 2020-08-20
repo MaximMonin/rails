@@ -81,7 +81,7 @@ export default {
           return text[this.lang];
         },
         fetchFiles () {
-          axios.get('/user_files/videos').then(response => {
+          axios.get('/user_files/videos?page=1').then(response => {
             if (response !== null) {
               var i;
               var j;

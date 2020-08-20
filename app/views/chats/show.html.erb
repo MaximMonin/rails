@@ -16,3 +16,19 @@
   </div>
 </div>
 
+<% content_for :js do %>
+    <script>      
+       window.addEventListener("resize", onResize);
+       onResize();
+       function onResize() {
+         var element = document.getElementById("chatContainer");
+         var rect = document.getElementById("chatContainer").getBoundingClientRect();
+         console.log (rect);
+         var calcheight = window.innerHeight - rect.top - 70;
+         if (calcheight < 100) {
+            calcheight = 100;
+         }
+         element.style.height = calcheight + "px";
+       }
+    </script>      
+<% end %>
