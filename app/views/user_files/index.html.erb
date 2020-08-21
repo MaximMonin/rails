@@ -69,13 +69,13 @@
   const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
   var filedir = 'user';
   Dropzone.options.documentDropzone = {
-    url: '/upload/local?filedir=' + filedir + '&' + 'action=SaveDatabase',
+    url: '/upload/local?todo=SaveMyFiles',
     parallelUploads: 3,
     maxFilesize: 500, // MB
-    chunking: true,
+    chunking: false,
     chunkSize: 1000000, // Bytes 
-    parallelChunkUploads: false, // true,
-    retryChunks: true,
+    parallelChunkUploads: false, 
+    retryChunks: false,
     retryChunksLimit: 3,
     addRemoveLinks: true,
     dictFileTooBig: '"upload.FileTooBig"',
@@ -89,15 +89,20 @@
     },
     success: function (file, response) {
       if (response.name) {
-        uploadedDocumentMap[file.name] = response.path + '/' + response.name
+        uploadedDocumentMap[file.name] = JSON.stringify(response)
       }
       Event.emit('newfileadded', {});
     },
     removedfile: function (file) {
       file.previewElement.remove()
-      var name = ''
-      name = uploadedDocumentMap[file.name]
-      axios.post('/upload/local/delete', { 'file': name}).then(response => {});
+      var filedata = ''
+      filedata = JSON.parse(uploadedDocumentMap[file.name])
+      if (filedata.name) {
+        axios.post('/upload/local/delete', { 'file': filedata.path + '/' + filedata.name}).then(response => {});
+      }
+      if (filedata.preview) {
+        axios.post('/upload/local/delete', { 'file': filedata.path + '/' + filedata.preview}).then(response => {});
+      }
       Event.emit('newfileadded', {});
     },
     init: function () {
