@@ -6,8 +6,10 @@ class UploadController < ApplicationController
 
     uploader = MyFilesUploader.new
     uploader.store!(params[:file])
+
     mime_type = uploader.content_type
     filesize = uploader.size
+    originalname = uploader.get_originalname
 
     # Moving files to users dir, CarrierWave cant use current_user
     filenew = URI.decode_www_form_component(uploader.url)
@@ -18,7 +20,7 @@ class UploadController < ApplicationController
     FileUtils.mv(Rails.root.to_s + '/storage/cdn/' + filepreview, Rails.root.to_s + '/storage/cdn/user' + user.to_s + '/') if filepreview.present?
     filepreview = filepreview || ''
 
-    render json: {path: '/cdn/user' + user.to_s, name: filenew, mime_type: mime_type, filesize: filesize, preview: filepreview}
+    render json: {path: '/cdn/user' + user.to_s, name: filenew, mime_type: mime_type, filesize: filesize, originalname: originalname, preview: filepreview}
   end
   def delete
     filedel = Rails.root.to_s + '/storage' + params[:file]

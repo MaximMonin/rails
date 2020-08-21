@@ -18,6 +18,9 @@ class MyFilesUploader < CarrierWave::Uploader::Base
     @cache_id_was = cache_id
   end
 
+  def get_originalname
+    original_filename
+  end
 
   def clear_generic_content_type
     file.content_type = nil if GENERIC_CONTENT_TYPES.include?(file.try(:content_type))
