@@ -116,6 +116,9 @@ export default {
         },
         removeFile (file) {
           axios.post('/upload/local/delete', {file: file.file});
+          if (file.filepreview) {
+            axios.post('/upload/local/delete', {file: file.filepreview});
+          }
           var j;
           for (j = 0; j < this.files.length; j++) {
             if (this.files[j].id == file.id) {

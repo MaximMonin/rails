@@ -18,12 +18,30 @@ class UploadController < ApplicationController
     filepreview = filepreview[5, filepreview.length] if filepreview.present?
     FileUtils.mv(Rails.root.to_s + '/storage/cdn/' + filenew, Rails.root.to_s + '/storage/cdn/user' + user.to_s + '/')
     FileUtils.mv(Rails.root.to_s + '/storage/cdn/' + filepreview, Rails.root.to_s + '/storage/cdn/user' + user.to_s + '/') if filepreview.present?
-    filepreview = filepreview || ''
 
-    render json: {path: '/cdn/user' + user.to_s, name: filenew, mime_type: mime_type, filesize: filesize, originalname: originalname, preview: filepreview}
+    if params[:todo] == 'SaveMyFiles'
+      if filepreview.present?
+         UserFile.create user_id: user,
+                            file: 'cdn/user' + user.to_s + '/' + filenew,
+                        filename: originalname,
+                        filetype: mime_type,
+                        filesize: filesize,
+                     filepreview: 'cdn/user' + user.to_s + '/' + filepreview
+      else
+         UserFile.create user_id: user,
+                            file: 'cdn/user' + user.to_s + '/' + filenew,
+                        filename: originalname,
+                        filetype: mime_type,
+                        filesize: filesize
+      end
+    end
+
+    filepreview = filepreview || ''
+    render json: {path: 'cdn/user' + user.to_s, name: filenew, mime_type: mime_type, filesize: filesize, originalname: originalname, preview: filepreview}
   end
   def delete
-    filedel = Rails.root.to_s + '/storage' + params[:file]
+    filedel = Rails.root.to_s + '/storage/' + params[:file]
     File.delete(filedel) if File.exist?(filedel)
+    UserFile.where(file: params[:file]).destroy_all
   end
 end
