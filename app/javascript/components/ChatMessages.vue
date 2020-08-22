@@ -19,8 +19,8 @@
            </div>
            <div v-if="(message.files)">
              <div class="chatfiles" v-for="file in JSON.parse(message.files)">
-                <img v-if="file.mime.match('image*')" class="centered-and-cropped" width="300" height="300" :src="file.url"/> 
-                <a :href="file.url" target="_blank">
+                <img v-if="file.mime.match('image*')" class="centered-and-cropped" width="300" height="300" :src="calcurl(file)"/> 
+                <a :href="baseurl + '/' + file.url" target="_blank">
                    {{file.name}}
                 </a>
              </div>
@@ -99,6 +99,9 @@ export default {
     user: function () {
       return this.$store.state.user;
     },
+    baseurl: function () {
+      return this.$store.state.baseurl;
+    },
     orderedmessages: function () {
       return _.orderBy(this.messages, 'id')
     },
@@ -149,6 +152,12 @@ export default {
   methods: {
         avatartext: function (name) {
           return name.split(' ').map(function(str) { return str ? str[0].toUpperCase() : "";}).join('');
+        },
+        calcurl (file) {
+          if (file.preview) {
+            return this.baseurl + '/' + file.preview;
+          } 
+          return this.baseurl + '/' + file.url;
         },
         realdate: function (dtstring) {
            var d = new Date(dtstring);

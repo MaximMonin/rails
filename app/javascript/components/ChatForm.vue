@@ -8,7 +8,7 @@
         <b-tooltip v-if="this.files.length > 0" target="removefiles" custom-class="chat-tooltip" triggers="hover">
           <li class="left clearfix" v-for="file in files">
              {{ file.name }} ( {{ Intl.NumberFormat().format(file.size / 1024 / 1024) }} Mb )
-             <img v-if="file.mime.match('image*')" class="centered-and-cropped" width="100" height="100" :src="file.url"/> 
+             <img v-if="file.mime.match('image*')" class="centered-and-cropped" width="100" height="100" :src="calcurl(file)"/> 
           </li>
         </b-tooltip>
         <input id="file" dusk="chatFile" type="file" @change="uploadFiles" ref="myFiles" multiple="yes"/>
@@ -57,6 +57,12 @@ input[type="file"] {
       getfile () {
         this.$refs.myFiles.click();
       },
+      calcurl (file) {
+        if (file.preview) {
+          return this.baseurl + '/' + file.preview;
+        } 
+        return this.baseurl + '/' + file.url;
+      },
       uploadFiles () {
         var filelist = this.$refs.myFiles.files;
         var fl= filelist.length;
@@ -76,24 +82,28 @@ input[type="file"] {
           if (!isfound) {
             var formData = new FormData();
             formData.append("file", file);
-            axios.post('/upload/local?filedir=cdn/chat&action=chat', formData, {
+            axios.post('/upload/local?todo=chat', formData, {
                   headers: { 'Content-Type': 'multipart/form-data' }
             }).then(response => {
                var isfound;
                var j;
                isfound = false;
                for (j = 0; j < this.files.length; j++) {
-                 if (this.files[j].url == ('/cdn/chat/' + response.data.name) ) {
+                 if (this.files[j].url == (response.path + '/' + response.data.name) ) {
                     isfound = true;
                  }
                }
                if (!isfound) {
+                 var preview;
+                 if (response.data.preview) {
+                   preview = response.data.path + '/' + response.data.preview;
+                 }
                  this.files.push ({
                     name: response.data.originalname,
                     mime: response.data.mime_type,
-                    size: response.data.size,
-                    url: /* this.baseurl + */ '/cdn/chat/' + response.data.name,
-                    removeurl: '/cdn/chat/' + response.data.name,
+                    size: response.data.filesize,
+                    url: response.data.path + '/' +  response.data.name,
+                    preview: preview
                  });
                }
             });
@@ -108,7 +118,10 @@ input[type="file"] {
         while ( i < fl) {
           var file = filelist[i];
           i++;
-          axios.post('/upload/local/delete', {file: file.removeurl});
+          axios.post('/upload/local/delete', {file: file.url});
+          if (file.preview) {
+            axios.post('/upload/local/delete', {file: file.preview});
+          }
         }
         this.files = [];
       },
