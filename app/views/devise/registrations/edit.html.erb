@@ -4,10 +4,13 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :username, 
-                required: true, 
-                autofocus: true %>
+    <div class="row">
+      <button type="button" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('user_photo').click()">Change avatar</button>
+    </div>
     <%= f.input :email, 
+                required: true,
+                autofocus: true %>
+    <%= f.input :username, 
                 required: true %>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -25,10 +28,11 @@
                 hint: t(".we_need_your_current_password_to_confirm_your_changes"),
                 required: true,
                 input_html: { autocomplete: "current-password" } %>
+    <%= f.file_field :photo, class: "hiddenfile" %> 
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, t(".update"), class: 'btn btn-success'  %>
+    <%= f.button :submit, t(".update"), class: 'btn btn-primary'  %>
   </div>
 <% end %>
 

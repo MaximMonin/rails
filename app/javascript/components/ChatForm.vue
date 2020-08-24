@@ -11,12 +11,12 @@
              <img v-if="file.mime.match('image*')" class="centered-and-cropped" width="100" height="100" :src="calcurl(file)"/> 
           </li>
         </b-tooltip>
-        <input id="file" dusk="chatFile" type="file" @change="uploadFiles" ref="myFiles" multiple="yes"/>
+        <input id="file" dusk="chatFile" type="file" class="hiddenfile" @change="uploadFiles" ref="myFiles" multiple="yes"/>
         <b-button dusk="sendMessage" variant="primary" @click="sendMessage">➣</b-button>
     </div>
 </template>
 <style>
-input[type="file"] {
+.hiddenfile {
     display: none;
 }
 .chat-tooltip > .tooltip-inner{
