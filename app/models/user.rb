@@ -11,4 +11,12 @@ class User < ApplicationRecord
   has_many :user_files, dependent: :destroy, inverse_of: :user
 
   has_one_attached :photo
+
+  after_save :checkchanges
+
+  private
+
+  def checkchanges
+    phone_verified_at = nil if phone_changed?
+  end
 end

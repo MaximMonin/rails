@@ -11,12 +11,19 @@
     <%= f.input :email, 
                 required: true,
                 autofocus: true %>
-    <%= f.input :username, 
-                required: true %>
-
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p><%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %></p>
     <% end %>
+
+    <%= f.input :username, required: true %>
+    <div class="row">
+      <%= f.input :phone, class: "md-3" %>
+      <% if resource.phone_verified_at %>
+        <p>Confirmed</p>
+      <% else %>
+        <button type="button" class="btn" onclick="event.preventDefault(); axios.post('/users/checkphone', { 'phone': document.getElementById('user_phone').value }).then(response => {});">Confirm phone</button>
+      <% end %>
+    </div>
 
     <%= f.input :password,
                 hint: t(".leave_blank_if_you_don_t_want_to_change_it"),

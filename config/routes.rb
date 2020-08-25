@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registration"}
   devise_scope :user do
     post '/users/photo'       => "registration#updatephoto"
+    post '/users/checkphone'  => "registration#checkphone"
+    post '/users/verifyphone' => "registration#verifyphone"
   end 
 
   get  '/locale/:locale'      => "locale#set"
