@@ -60,13 +60,15 @@ const uploadFile = (file) => {
   ImmediateUploader.default.upload (file, url)
     .then(blob => {
       // get blob.signed_id and add it to form values to submit form
-      const hiddenField = document.createElement('input')
-      hiddenField.setAttribute("type", "hidden");
-      hiddenField.setAttribute("value", blob.signed_id);
-      hiddenField.name = input.name
-      document.querySelector('form').appendChild(hiddenField)
-      // Update new avatar
+//      const hiddenField = document.createElement('input')
+//      hiddenField.setAttribute("type", "hidden");
+//      hiddenField.setAttribute("value", blob.signed_id);
+//      hiddenField.name = input.name
+//      document.querySelector('form').appendChild(hiddenField)
+      // Update new avatar in browser
       document.getElementById('avatar').src = '/rails/active_storage/blobs/' + blob.signed_id + '/' + blob.filename;
+      // Update photo in Database
+      axios.post('/users/photo', { 'photo': blob.signed_id }).then(response => {});
     });
 }
 </script>

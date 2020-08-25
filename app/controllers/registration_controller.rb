@@ -5,4 +5,15 @@ class RegistrationController < Devise::RegistrationsController
     @user.avatar = url_for(@user.photo.variant(resize_to_limit: [300, 300]).processed) if @user.photo.attached?
     @user.save
   end
+  def updatephoto
+    @photo = params[:photo]
+    @user = current_user
+    @user.photo = @photo
+    @user.save
+
+    @user = current_user
+    @user.avatar = url_for(@user.photo.variant(resize_to_limit: [300, 300]).processed) if @user.photo.attached?
+    @user.save
+  end
+
 end 
