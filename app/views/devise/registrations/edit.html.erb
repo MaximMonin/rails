@@ -1,37 +1,39 @@
 <h2><%= t(".title", resource: resource.model_name.human) %></h2>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "card", style: "padding: 20px" }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <div class="row">
+    <div class="form-group">
+      <label class="col-sm-3"></label>
       <img id="avatar" class="centered-and-cropped" width="100" height="100" style="border-radius:50%" src="<%= resource.avatar %>"> 
-      <button type="button" class="btn" onclick="event.preventDefault(); document.getElementById('user_photo').click()">Change avatar</button>
+      <button type="button" class="btn btn-link" onclick="event.preventDefault(); document.getElementById('user_photo').click()">Change avatar</button>
     </div>
-    <%= f.input :email, 
-                required: true,
-                autofocus: true %>
+    <%= f.input :email, required: true, autofocus: true, :wrapper => :horizontal_form, label_html: {class: "text-sm-right"}  %>
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
       <p><%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %></p>
     <% end %>
 
-    <%= f.input :username, required: true %>
-    <%= f.input :phone %>
+    <%= f.input :username, required: true, label: 'Name', error: 'Username is mandatory, please specify one', :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
+    <%= f.input :phone, label: 'Phone', 
+          hint: ('Confirmed' if resource.phone_verified_at),
+         :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
     <% if resource.phone_verified_at %>
-        <p>Confirmed</p>
     <% else %>
-        <button type="button" id="checkphone" class="btn" onclick="event.preventDefault(); 
-                                                   document.getElementById('checkphone').style.display = 'none';
-                                                   document.getElementById('otplabel').style.display = 'block';
-                                                   document.getElementById('otp').style.display = 'block';
-                                                   document.getElementById('verifyphone').style.display = 'block';
+        <div class="form-group row" id="confirmblock">  
+          <label class="col-sm-3"></label>
+          <button type="button" id="checkphone" class="btn btn-link" onclick="event.preventDefault(); 
+                                                   document.getElementById('confirmblock').style.display = 'none';
+                                                   document.getElementById('smsblock').style.display = 'flex';
                                                    axios.post('/users/checkphone',
                                                    { 'phone': document.getElementById('user_phone').value })
                                                    .then(response => {});
                                                     ">Confirm phone</button>
-        <label for="otp" id="otplabel" style='display: none;' class="otp required">Enter Code<abbr title="required">*</abbr></label>
-        <input type="input" aria-required="true" id="otp" class="form-control is-valid integer required md-3" style='display: none;'>
-        <button type="button" id="verifyphone" class="btn" style="display: none;" onclick="event.preventDefault(); 
+        </div>
+        <div class="form-group" id="smsblock" style='display: none; padding-right: 15px; padding-left: 15px;'>
+          <label class="col-sm-3 text-sm-right" style="padding-right: 30px; padding-top=15px; margin-top: 8px">EnterCode</label>
+          <input type="input" id="otp" required="required" aria-required="true" type="text" class="form-control integer required col-sm-3"></input>
+          <button type="button" id="verifyphone" class="btn btn-link col-sm-2" onclick="event.preventDefault(); 
                                                    axios.post('/users/verifyphone',
                                                    { 'otp': document.getElementById('otp').value })
                                                    .then(response => {
@@ -39,43 +41,36 @@
                                                         document.getElementById('otperror').style.display = 'block';
                                                      }
                                                      else {
-                                                       document.getElementById('checkphone').style.display = 'none';
-                                                       document.getElementById('otplabel').style.display = 'none';
-                                                       document.getElementById('otp').style.display = 'none';
-                                                       document.getElementById('otperror').style.display = 'none';
-                                                       document.getElementById('verifyphone').style.display = 'none';
+                                                       document.getElementById('smsblock').style.display = 'none';
                                                      }
                                                    });
                                                     ">Send code</button>
-      <div id='otperror' style="display: none;">
-        <p>Sms code is not valid</p>
+
+          <div id="otperror" class="invalid-feedback" style="display: none; padding-left: 15px; margin-top: 0.65rem">Sms code is not valid</div>
       </div>
     <% end %>
 
     <%= f.input :password,
                 hint: t(".leave_blank_if_you_don_t_want_to_change_it"),
                 required: false,
-                input_html: { autocomplete: "new-password" } %>
+                input_html: { autocomplete: "new-password" }, :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
     <%= f.input :password_confirmation,
                 required: false,
-                input_html: { autocomplete: "new-password" } %>
+                input_html: { autocomplete: "new-password" }, :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
     <%= f.input :current_password,
                 hint: t(".we_need_your_current_password_to_confirm_your_changes"),
                 required: true,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.file_field :photo, direct_upload: true, class: "hiddenfile" %>  
+                input_html: { autocomplete: "current-password" }, :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
+    <%= f.file_field :photo, direct_upload: true, style: "display: none" %>  
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, t(".update"), class: 'btn btn-primary'  %>
+    <label class="col-sm-3"></label>
+    <%= f.button :submit, t(".update"), class: 'btn btn-primary' %>
   </div>
 <% end %>
 
-<h3><%= t(".cancel_my_account") %></h3>
-
 <p><%= t(".unhappy") %> <%= link_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: t(".are_you_sure") }, method: :delete %></p>
-
-<%= link_to t("devise.shared.links.back"), :back %>
 
 <% content_for :js do %>
 <script>
