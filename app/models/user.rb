@@ -12,11 +12,12 @@ class User < ApplicationRecord
 
   has_one_attached :photo
 
-  after_save :checkchanges
-
   private
 
-  def checkchanges
-    phone_verified_at = nil if phone_changed?
-  end
+  before_update do |user|
+    user.phone_verified_at = nil if user.phone_changed?
+  end 
+  after_destroy do |user|
+    FileUtils.rm_rf(Rails.root.to_s + '/storage/cdn/user' + user.id.to_s)
+  end 
 end
