@@ -34,6 +34,7 @@ class UploadController < ApplicationController
                         filetype: mime_type,
                         filesize: filesize
       end
+      VideoconvertJob.perform_later ('cdn/user' + user.to_s + '/' + filenew) if mime_type.start_with? 'video'
     end
 
     filepreview = filepreview || ''
