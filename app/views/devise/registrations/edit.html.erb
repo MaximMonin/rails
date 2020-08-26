@@ -16,14 +16,41 @@
     <% end %>
 
     <%= f.input :username, required: true %>
-    <div class="row">
-      <%= f.input :phone, class: "md-3" %>
-      <% if resource.phone_verified_at %>
+    <%= f.input :phone %>
+    <% if resource.phone_verified_at %>
         <p>Confirmed</p>
-      <% else %>
-        <button type="button" class="btn" onclick="event.preventDefault(); axios.post('/users/checkphone', { 'phone': document.getElementById('user_phone').value }).then(response => {});">Confirm phone</button>
-      <% end %>
-    </div>
+    <% else %>
+        <button type="button" id="checkphone" class="btn" onclick="event.preventDefault(); 
+                                                   document.getElementById('checkphone').style.display = 'none';
+                                                   document.getElementById('otplabel').style.display = 'block';
+                                                   document.getElementById('otp').style.display = 'block';
+                                                   document.getElementById('verifyphone').style.display = 'block';
+                                                   axios.post('/users/checkphone',
+                                                   { 'phone': document.getElementById('user_phone').value })
+                                                   .then(response => {});
+                                                    ">Confirm phone</button>
+        <label for="otp" id="otplabel" style='display: none;' class="otp required">Enter Code<abbr title="required">*</abbr></label>
+        <input type="input" aria-required="true" id="otp" class="form-control is-valid integer required md-3" style='display: none;'>
+        <button type="button" id="verifyphone" class="btn" style="display: none;" onclick="event.preventDefault(); 
+                                                   axios.post('/users/verifyphone',
+                                                   { 'otp': document.getElementById('otp').value })
+                                                   .then(response => {
+                                                     if (response.data.status == 'wrong code') {
+                                                        document.getElementById('otperror').style.display = 'block';
+                                                     }
+                                                     else {
+                                                       document.getElementById('checkphone').style.display = 'none';
+                                                       document.getElementById('otplabel').style.display = 'none';
+                                                       document.getElementById('otp').style.display = 'none';
+                                                       document.getElementById('otperror').style.display = 'none';
+                                                       document.getElementById('verifyphone').style.display = 'none';
+                                                     }
+                                                   });
+                                                    ">Send code</button>
+      <div id='otperror' style="display: none;">
+        <p>Sms code is not valid</p>
+      </div>
+    <% end %>
 
     <%= f.input :password,
                 hint: t(".leave_blank_if_you_don_t_want_to_change_it"),

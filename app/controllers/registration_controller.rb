@@ -30,13 +30,14 @@ class RegistrationController < Devise::RegistrationsController
 
     val = rand(100000..999999)
     message_id = TurboSMS.send_sms(@phone, val)
+    status = TurboSMS.get_message_status(message_id)
     session[:otp] = val
-    render json: {status: TurboSMS.get_message_status(message_id)}
+    render json: {status: status}
   end
 
   def verifyphone
-    @code = params[:code]
-    if code == session[:otp] then
+    code = params[:otp]
+    if code.to_s == session[:otp].to_s
       @user = current_user
       @user.phone_verified_at = DateTime.now
       @user.save
