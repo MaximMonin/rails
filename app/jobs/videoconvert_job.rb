@@ -40,8 +40,8 @@ class VideoconvertJob < ApplicationJob
       threads: 12
     }
     movie.transcode(video_name, voptions) do |progress|
-      percentage = (progress.to_f/duration.to_f) * 100
-      puts "#{percentage}%"
+      percentage = progress.to_f * 100
+      puts "processed #{percentage}%"
     end 
 
     transcoded_movie = FFMPEG::Movie.new(video_name)
