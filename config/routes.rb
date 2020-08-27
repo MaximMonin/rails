@@ -17,4 +17,9 @@ Rails.application.routes.draw do
 
   root controller: :welcome, action: :index
   default_url_options :host => ENV['VIRTUAL_HOST']
+
+  require 'sidekiq/web'
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
+  end
 end
