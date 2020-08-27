@@ -1,5 +1,4 @@
 class VideoconvertJob < ApplicationJob
-  retry_on wait: 15.minutes, queue: :low_priority
   queue_as :low_priority
 
   def perform (filename)
@@ -37,7 +36,6 @@ class VideoconvertJob < ApplicationJob
 
     voptions = {
       video_codec: "libx264", frame_rate: movie.frame_rate, resolution: movie.resolution , video_bitrate: vbitrate, video_bitrate_tolerance: 100,
-      aspect: 1.333333, keyframe_interval: 90, x264_vprofile: "high", x264_preset: "slow",
       audio_codec: "aac", audio_bitrate: abitrate, audio_sample_rate: 44100, audio_channels: 2,
       threads: 12
     }
@@ -66,5 +64,6 @@ class VideoconvertJob < ApplicationJob
     else
        File.delete(video_name) if File.exist?(video_name)
     end
+    return 'done'
   end
 end
