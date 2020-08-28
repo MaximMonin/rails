@@ -3,7 +3,7 @@
     <div class="video" v-for="file in files">
       <div class="FileContainer">
             <div>
-               <video width="auto" height="240" controls>
+               <video width="auto" height="240" preload="metadata" controls>
                  <source :src="baseurl + '/' + file.file" :type="file.filetype">
                </video>
             </div>
@@ -113,6 +113,8 @@ export default {
           for (j = 0; j < this.files.length; j++) {
             if (this.files[j].id == file.id) {
                this.files.splice(j, 1);
+               // After delete vue refresh everything ok, but browser keeps old videos sometimes
+               Event.emit('filedeleted', {});
                return;
             }
           }

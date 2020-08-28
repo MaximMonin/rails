@@ -3,7 +3,7 @@
      <div class="row filetop">
        <h4>'messages.Files'</h4>
        <div class="btnupdate">
-           <button type="button" class="btn btn-primary btn-sm" onclick="event.preventDefault(); Event.emit('newfileadded', {});">'messages.Update')</button>
+           <button type="button" id="UpdateFiles" class="btn btn-primary btn-sm" onclick="event.preventDefault(); Event.emit('newfileadded', {});">'messages.Update')</button>
        </div>  
        <div class="form-check ml-auto">
            <input type="checkbox" class="form-check-input" id="EditMode" onclick="if (this.checked) {Event.emit('fileseditmode', {})} else {Event.emit('filesviewmode', {})};">
@@ -65,6 +65,10 @@
 
 <% content_for :js do %>
 <script>
+  Event.listen('filedeleted', () => {
+     document.getElementById('UpdateFiles').click();
+  });
+
   var uploadedDocumentMap = {};
   const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
   var filedir = 'user';

@@ -26,6 +26,11 @@ class VideoconvertJob < ApplicationJob
       abitrate = 0
     end
 
+    # Do not process files if it is playable format and low bitrate
+    if File.extname(ivideo) == '.mp4' and vbitrate < 1100
+      return 'done'
+    end
+
     if vbitrate > 1000
       vbitrate = 1000
     end
