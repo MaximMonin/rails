@@ -76,4 +76,21 @@ en:
       chat_instruction: Join a chat room or create new chat room
     new:
       new_chat_room: New Chat Room
-        
+  user_files:
+    index:
+      my_files: My files
+      update_files: Update files
+      edit_mode: Edit Mode
+      my_photos: My photos
+      my_videos: My videos
+      my_documents: My documents
+      upload_new_files: Upload new files
+      files_upload: Files upload
+      upload_instructions: Click or drag and drop files
+      file_too_big: File too big (max 500Mb)
+      upload_error: Upload error
+      cancel_upload: Cancel upload
+      are_you_sure_you_want_to_cancel_upload: Are you sure you want to cancel upload?
+      upload_canceled: Upload Canceled
+      delete_upload: Delete Upload
+      

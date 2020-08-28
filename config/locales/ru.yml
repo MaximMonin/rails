@@ -45,3 +45,20 @@ ru:
       chat_instruction: Подключитесь к одной из комнат или создайте новую
     new:
       new_chat_room: Новая комната общения
+  user_files:
+    index:
+      my_files: Мои файлы
+      update_files: Обновить файлы
+      edit_mode: Режим редактирования
+      my_photos: Мои фотографии
+      my_videos: Мои Видео
+      my_documents: Ми документы
+      upload_new_files: Загрузить новые файлы
+      files_upload: Загрузка файлов
+      upload_instructions: Нажмите или перетащите файлы
+      file_too_big: Файл слишком большой (макс 500Mb)
+      upload_error: Ошибка загрузки
+      cancel_upload: Отменить загрузку
+      are_you_sure_you_want_to_cancel_upload: Вы уверены что хотите отменить загрузку?
+      upload_canceled: Загрузка отменена
+      delete_upload: Удалить файл

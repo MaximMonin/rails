@@ -45,3 +45,20 @@ uk:
       chat_instruction: Підключіться до однієї з кімнат або створіть нову
     new:
       new_chat_room: Нова кімната спілкування
+  user_files:
+    index:
+      my_files: Мої файли
+      update_files: Оновити файли
+      edit_mode: Режим редагування
+      my_photos: Мої фотографії
+      my_videos: Мої відео
+      my_documents: Мої документи
+      upload_new_files: Завантажити нові файли
+      files_upload: Завантаження файлів
+      upload_instructions: Натисніть або перетягніть файли
+      file_too_big: Файл занадто великий (макс 500Mb)
+      upload_error: Помилка завантаження
+      cancel_upload: Скасувати завантаження
+      are_you_sure_you_want_to_cancel_upload: Ви впевнені що хочете скасувати завантаження?
+      upload_canceled: Завантаження скасовано
+      delete_upload: Видалити файл

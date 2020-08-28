@@ -1,29 +1,29 @@
 <div class="container">
    <div class="col-md-12">
      <div class="row filetop">
-       <h4>'messages.Files'</h4>
+       <h4><%= t(".my_files") %></h4>
        <div class="btnupdate">
-           <button type="button" id="UpdateFiles" class="btn btn-primary btn-sm" onclick="event.preventDefault(); Event.emit('newfileadded', {});">'messages.Update')</button>
+           <button type="button" id="UpdateFiles" class="btn btn-primary btn-sm" onclick="event.preventDefault(); Event.emit('newfileadded', {});"><%= t(".update_files") %></button>
        </div>  
        <div class="form-check ml-auto">
            <input type="checkbox" class="form-check-input" id="EditMode" onclick="if (this.checked) {Event.emit('fileseditmode', {})} else {Event.emit('filesviewmode', {})};">
-           <label class="form-check-label" for="EditMode">'messages.EditMode'</label>
+           <label class="form-check-label" for="EditMode"><%= t(".edit_mode") %></label>
        </div>  
      </div>
    </div>
    <ul class="nav nav-tabs">
      <li class="nav-item">
-       <a class="nav-link active" dusk="photo-tab" data-toggle="tab" href="#photo">'messages.Photos'</a>
+       <a class="nav-link active" dusk="photo-tab" data-toggle="tab" href="#photo"><%= t(".my_photos") %></a>
      </li>
      <li class="nav-item">
-       <a class="nav-link" dusk="video-tab" data-toggle="tab" href="#video">'messages.Videos'</a>
+       <a class="nav-link" dusk="video-tab" data-toggle="tab" href="#video"><%= t(".my_videos") %></a>
      </li>
      <li class="nav-item">
-       <a class="nav-link" dusk="doc-tab" data-toggle="tab" href="#docs">'messages.Docs'</a>
+       <a class="nav-link" dusk="doc-tab" data-toggle="tab" href="#docs"><%= t(".my_documents") %></a>
      </li>
      <li class="nav-item">
        <a class="nav-link" dusk="upload-tab" data-toggle="tab" href="#upload" onclick="Dropzone.forElement('#documentDropzone').files.forEach(function(file) { 
-                                                                     file.previewElement.remove(); });">'messages.UploadNew'</a>
+                                                                     file.previewElement.remove(); });"><%= t(".upload_new_files") %></a>
      </li>
    </ul>
    <div class="tab-content">
@@ -44,13 +44,13 @@
      </div>
      <div class="tab-pane fade" id="upload">
        <div class="myfiles">
-         <h5 class="page-heading">'upload.title'</h5>
+         <h5 class="page-heading"><%= t(".files_upload") %></h5>
          <form method="post" action='/upload/local'
                   enctype="multipart/form-data" class="dropzone" id="documentDropzone">
                 <div class="dz-message">
                     <div class="col-xs-8">
                         <div class="message">
-                            <p>'upload.message'</p>
+                            <p><%= t(".upload_instructions") %></p>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,6 @@
 
   var uploadedDocumentMap = {};
   const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
-  var filedir = 'user';
   Dropzone.options.documentDropzone = {
     url: '/upload/local?todo=SaveMyFiles',
     parallelUploads: 3,
@@ -83,12 +82,12 @@
     retryChunks: false,
     retryChunksLimit: 3,
     addRemoveLinks: true,
-    dictFileTooBig: '"upload.FileTooBig"',
-    dictResponseError: '"upload.error"',
-    dictCancelUpload: '"upload.cancel"',
-    dictCancelUploadConfirmation: '"upload.cancelConfirmation"',
-    dictUploadCanceled: '"upload.canceled"',
-    dictRemoveFile: '"upload.remove"',
+    dictFileTooBig: '<%= t(".file_too_big") %>',
+    dictResponseError: '<%= t(".upload_error") %>',
+    dictCancelUpload: '<%= t(".cancel_upload") %>',
+    dictCancelUploadConfirmation: '<%= t(".are_you_sure_you_want_to_cancel_upload") %>',
+    dictUploadCanceled: '<%= t(".upload_canceled") %>',
+    dictRemoveFile: '<%= t(".delete_upload") %>',
     headers: {
       'X-CSRF-TOKEN': csrf
     },
