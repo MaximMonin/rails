@@ -39,6 +39,8 @@ module App
 
     config.active_job.queue_adapter = :sidekiq
 
+    Rails.application.config.session_store :cookie_store, key: '_rails_app_session'
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
