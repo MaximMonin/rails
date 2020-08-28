@@ -1,0 +1,10 @@
+ru:
+  activerecord:
+    attributes:
+      user:
+        username: Имя пользователя
+        phone: Телефон
+  devise:
+    registrations:
+      edit:
+        phone_confirmed: Телефон подтвержден

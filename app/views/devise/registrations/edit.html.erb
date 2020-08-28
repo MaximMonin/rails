@@ -14,9 +14,8 @@
       <p><%= t(".currently_waiting_confirmation_for_email", email: resource.unconfirmed_email) %></p>
     <% end %>
 
-    <%= f.input :username, required: true, label: 'Name', error: 'Username is mandatory, please specify one', :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
-    <%= f.input :phone, label: 'Phone', 
-          hint: ('Confirmed' if resource.phone_verified_at),
+    <%= f.input :username, required: true, :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
+    <%= f.input :phone, hint: (t(".phone_confirmed") if resource.phone_verified_at),
          :wrapper => :horizontal_form, label_html: {class: "text-sm-right"} %>
     <% if resource.phone_verified_at %>
     <% else %>

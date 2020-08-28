@@ -1,0 +1,10 @@
+uk:
+  activerecord:
+    attributes:
+      user:
+        username: Ім'я користувача
+        phone: Телефон
+  devise:
+    registrations:
+      edit:
+        phone_confirmed: Телефон підтверджений
