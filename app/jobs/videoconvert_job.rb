@@ -20,7 +20,11 @@ class VideoconvertJob < ApplicationJob
     end
     
     vbitrate = movie.video_bitrate / 1024
-    abitrate = movie.audio_bitrate / 1024
+    if not (movie.audio_stream.nil?)
+      abitrate = movie.audio_bitrate / 1024
+    else
+      abitrate = 0
+    end
 
     if vbitrate > 1000
       vbitrate = 1000
