@@ -1,6 +1,6 @@
 <div class="mb-3">
   <%= link_to new_chat_path, class: "btn btn-primary" do %>
-    Create a chat
+    <%= t(".create_a_chat_room") %>
   <% end %>
 </div>
 
@@ -13,12 +13,12 @@
   <% if @chat.present? %>
     <div class="mb-3">
       <%= link_to edit_chat_path do %>
-        Edit chat name
+        <%= t(".edit_chat_room") %>
       <% end %>
     </div>
   <% end %>
 <% else %>
   <div class="text-muted">
-    The are no chats
+    <%= t(".there_are_no_chat_rooms") %>
   </div>
 <% end %>

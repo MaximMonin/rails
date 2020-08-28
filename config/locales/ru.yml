@@ -4,7 +4,44 @@ ru:
       user:
         username: Имя пользователя
         phone: Телефон
+      chat:
+        name: Название
   devise:
     registrations:
       edit:
         phone_confirmed: Телефон подтвержден
+        header: Профиль пользователя
+        change_avatar: Изменить аватар
+        confirm_phone: Подтвердить телефон
+        enter_code: Введите код
+        send_code: Послать код
+        sms_code_is_not_valid: Код СМС не верный
+  welcome:
+    index:
+      welcome_to_ruby: Добро пожаловать в приложение Ruby on rails + Vue.js
+  layouts:
+    navbar:
+      sign_in: Войти
+      sign_up: Регистрация
+      profile: Профиль
+      my_files: Мои файлы
+      chat_rooms: Комнаты общения
+      logout: Выйти
+      language: Язык
+      english: English
+      russian: Русский
+      ukranian: Українська
+  chats:
+    chats:
+      create_a_chat_room: Создать комнату общения
+      edit_chat_room: Редактировать комнату общения
+      there_are_no_chat_rooms: Нет комнат общения
+    form:
+      save: Сохранить
+    edit:
+      edit_chat: Редактировать комнату
+    index:
+      welcome_to_chat: Добро пожаловать в комнаты общения
+      chat_instruction: Подключитесь к одной из комнат или создайте новую
+    new:
+      new_chat_room: Новая комната общения

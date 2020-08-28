@@ -35,7 +35,45 @@ en:
       user:
         username: User name
         phone: Phone
+      chat:
+        name: Name
   devise:
     registrations:
       edit:
         phone_confirmed: Phone Confirmed
+        header: User Profile
+        change_avatar: Change Avatar
+        confirm_phone: Confirm Phone
+        enter_code: Enter Code
+        send_code: Send Code
+        sms_code_is_not_valid: Sms code is not valid
+  welcome:
+    index:
+      welcome_to_ruby: Welcome to Ruby on rails + Vue.js app
+  layouts:
+    navbar:
+      sign_in: Sign In
+      sign_up: Sign Up
+      profile: Profile
+      my_files: My files
+      chat_rooms: Chat Rooms
+      logout: Logout
+      language: Language
+      english: English
+      russian: Русский
+      ukranian: Українська
+  chats:
+    chats:
+      create_a_chat_room: Create chat room
+      edit_chat_room: Edit chat room
+      there_are_no_chat_rooms: There are no chat rooms
+    form:
+      save: Save
+    edit:
+      edit_chat: Edit room
+    index:
+      welcome_to_chat: Welcome to chat
+      chat_instruction: Join a chat room or create new chat room
+    new:
+      new_chat_room: New Chat Room
+        

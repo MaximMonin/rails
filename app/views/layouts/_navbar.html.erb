@@ -5,10 +5,10 @@
             <!-- Authentication Links -->
             <% if !current_user %>
                     <li class="nav-item">
-                        <a class="navbar-brand" href="/users/sign_in">Sign In</a>
+                        <a class="navbar-brand" href="/users/sign_in"><%= t(".sign_in") %></a>
                     </li>
                     <li class="nav-item">
-                        <a class="navbar-brand" href="/users/sign_up">Sign Up</a>
+                        <a class="navbar-brand" href="/users/sign_up"><%= t(".sign_up") %></a>
                     </li>
             <% else %>
                 <li class="nav-item dropdown">
@@ -21,32 +21,32 @@
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/users/edit">
-                            Profile
+                            <%= t(".profile") %>
                         </a>
                         <a class="dropdown-item" href="/user_files">
-                            Files
+                            <%= t(".my_files") %>
                         </a>
                         <a class="dropdown-item" href="/chats">
-                            Chat
+                            <%= t(".chat_rooms") %>
                         </a>
-                        <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
+                        <%= link_to t(".logout"), destroy_user_session_path, method: :delete, class: 'dropdown-item' %>
                     </div>
                 </li>
             <% end %>
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="navbar-brand dropdown-toggle" dusk="lang-button" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Language <span class="caret"></span>
+                  <%= t(".language") %>   <span class="caret"></span>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" data-method="get" href="/locale/en">
-                            En
+                         <%= t(".english") %>   
                         </a>
                         <a class="dropdown-item" data-method="get" href="/locale/ru">
-                            Ru
+                          <%= t(".russian") %>
                         </a>
                         <a class="dropdown-item" data-method="get" href="/locale/uk">
-                            Uk
+                          <%= t(".ukranian") %>  
                         </a>
                 </div>
             </li>

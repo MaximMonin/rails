@@ -4,8 +4,9 @@
 
 
 .room-nav-link {
-  border: 1px solid lighten(#2c2c2c, 40%);
-  background: lighten(#2c2c2c, 45%);
+  border: 1px inset #777777;
+  border-radius: 10px 10px 10px 10px;
+  background: aliceblue;
 
   & + .room-nav-link {
     border-top: 0 none;
@@ -22,4 +23,5 @@
     position: relative;
     height: 700px;
     background: aliceblue;
+    border-radius: 10px 10px 10px 10px;
 }
