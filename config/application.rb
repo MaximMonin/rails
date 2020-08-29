@@ -36,10 +36,14 @@ module App
       enable_starttls_auto: true,
     }
     config.action_mailer.default_options = {from: 'no-reply@' + ENV['VIRTUAL_HOST']}
+    config.action_mailer.deliver_later_queue_name = 'mailers'
 
     config.active_job.queue_adapter = :sidekiq
+    
+    config.session_store :cookie_store, key: '_rails_app_session'
 
-    Rails.application.config.session_store :cookie_store, key: '_rails_app_session'
+    config.time_zone = "UTC"
+    config.active_record.default_timezone = :utc
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
