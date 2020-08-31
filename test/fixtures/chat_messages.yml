@@ -3,11 +3,11 @@
 one:
   chat: one
   user: one
-  message: MyText
-  files: MyText
+  message: First message
+  files: {}
 
 two:
   chat: two
   user: two
-  message: MyText
-  files: MyText
+  message: Second message
+  files: {}
