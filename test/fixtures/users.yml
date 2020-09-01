@@ -7,6 +7,8 @@
 one:
   email: maximmonin@gmail.com
   username: maxim monin
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'secret') %>
 two:
   email: maximmonin2@gmail.com
   username: maxim monin2
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'secret2') %>
