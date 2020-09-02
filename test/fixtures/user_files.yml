@@ -4,7 +4,7 @@ one:
   user: one
   file: cdn/user1/1.jpg
   filepreview: cdn/user1/preview_1.jpg
-  filename: j.jpg
+  filename: 1.jpg
   filetype: image/jpeg
   filesize: 10000
 

@@ -12,6 +12,5 @@ class WelcomeControllerTest < ActionDispatch::IntegrationTest
     r = JSON.parse(@response.body, symbolize_names: true)
     assert_equal 'en', r [:lang]
     assert_equal 'http://' + ENV['VIRTUAL_HOST'], r[:baseurl]
-    assert_equal 'http://' + ENV['VIRTUAL_HOST'], r[:baseurl]
   end
 end
