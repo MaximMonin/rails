@@ -20,11 +20,18 @@ class AuthTest < ApplicationSystemTestCase
     fill_in "user_password_confirmation", with: 'secret'
     
     click_on "commit"
-    sleep(inspection_time=1)
-#    user = User.find_by_sql("SELECT * FROM users where users.email = '" + email + "'")
-    user = User.first
-    visit '/users/confirmation?confirmation_token=' + user.to_s
+    assert_text "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
 
+    user = User.find_by_sql("SELECT * FROM users where users.email = '" + email + "'")
+
+    visit '/users/confirmation?confirmation_token=' + user[0].confirmation_token
+
+    visit new_user_session_url
+    fill_in "user_email", with: email
+    fill_in "user_password", with: 'secret'
+    click_on "commit"
+                                                                    
     assert_text username
+    take_screenshot
   end
 end
