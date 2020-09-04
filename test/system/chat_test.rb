@@ -29,4 +29,25 @@ class ChatTest < ApplicationSystemTestCase
 
     take_screenshot
   end
+  test "chat vue test" do
+    visit new_user_session_url
+    fill_in "user_email", with: users(:one).email
+    fill_in "user_password", with: 'secret'
+    click_on "commit"
+
+    visit chat_url (chats(:one).id)
+
+    attach_file('file', Rails.root.join('test/fixtures/files/profile.jpg'), make_visible: true)
+    attach_file('file', Rails.root.join('test/fixtures/files/video.mp4'), make_visible: true)
+    assert_text "Delete (2)"
+
+    find('#removefiles').hover
+    assert_text 'video.mp4'
+    assert_text 'profile.jpg'
+    take_screenshot
+
+    click_on "removefiles"
+
+    assert has_no_button?('Delete')
+  end
 end
