@@ -7,6 +7,9 @@ class AuthTest < ApplicationSystemTestCase
     fill_in "user_password", with: 'secret'
     click_on "commit"
     assert_text users(:one).username
+    click_on users(:one).username
+    click_on "Logout"
+    assert_text "Signed out successfully."
   end
   test "register" do
     visit new_user_registration_url
