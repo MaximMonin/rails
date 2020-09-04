@@ -4,10 +4,10 @@ one:
   chat: one
   user: one
   message: First message
-  files: {}
+  files: <%= nil %>
 
 two:
   chat: two
   user: two
   message: Second message
-  files: {}
+  files: <%= nil %>

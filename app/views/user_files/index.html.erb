@@ -70,7 +70,11 @@
   });
 
   var uploadedDocumentMap = {};
-  const csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+  var csrf = '';
+  if (document.querySelector("meta[name='csrf-token']")) {
+    csrf = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+  }
+
   Dropzone.options.documentDropzone = {
     url: '/upload/local?todo=SaveMyFiles',
     parallelUploads: 3,
