@@ -1,7 +1,7 @@
 <template>
     <div class="input-group">
-        <b-form-input :placeholder="entertext" dusk="chattext" v-model="newMessage" @keyup.enter="sendMessage"></b-form-input>
-        <b-button variant="primary" @click="getfile">📎</b-button>      
+        <b-form-input :placeholder="entertext" dusk="chattext" id="chattext" v-model="newMessage" @keyup.enter="sendMessage"></b-form-input>
+        <b-button variant="primary" id="chatattach" @click="getfile">📎</b-button>      
         <b-button id="removefiles" dusk="removefiles" v-if="this.files.length > 0" variant="primary" @click="removeFiles">
         {{ delfiles }}
         </b-button>      
@@ -12,7 +12,7 @@
           </li>
         </b-tooltip>
         <input id="file" dusk="chatFile" type="file" class="hiddenfile" @change="uploadFiles" ref="myFiles" multiple="yes"/>
-        <b-button dusk="sendMessage" variant="primary" @click="sendMessage">➣</b-button>
+        <b-button dusk="sendMessage" id="sendmessage" variant="primary" @click="sendMessage">➣</b-button>
     </div>
 </template>
 <style>
