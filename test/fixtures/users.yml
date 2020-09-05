@@ -10,7 +10,7 @@ one:
   encrypted_password: <%= Devise::Encryptor.digest(User, 'secret') %>
   confirmed_at: <%= DateTime.now %>
 two:
-  email: maximmonin2@gmail.com
-  username: maxim monin2
+  email: seconduser@gmail.com
+  username: second user
   encrypted_password: <%= Devise::Encryptor.digest(User, 'secret2') %>
   confirmed_at: <%= DateTime.now %>

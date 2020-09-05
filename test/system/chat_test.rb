@@ -61,7 +61,7 @@ class ChatTest < ApplicationSystemTestCase
     using_session("user2") do
       visit new_user_session_url
       fill_in "user_email", with: users(:two).email
-      fill_in "user_password", with: 'secret'
+      fill_in "user_password", with: 'secret2'
       click_on "commit"
 
       visit chat_url (chats(:one).id)
@@ -86,5 +86,6 @@ class ChatTest < ApplicationSystemTestCase
     using_session("user2") do
       assert_text 'I am not ' + username2
     end
+    take_screenshot
   end
 end
