@@ -50,4 +50,41 @@ class ChatTest < ApplicationSystemTestCase
 
     assert has_no_button?('Delete')
   end
+  test "communication" do
+    visit new_user_session_url
+    fill_in "user_email", with: users(:one).email
+    fill_in "user_password", with: 'secret'
+    click_on "commit"
+
+    visit chat_url (chats(:one).id)
+
+    using_session("user2") do
+      visit new_user_session_url
+      fill_in "user_email", with: users(:two).email
+      fill_in "user_password", with: 'secret'
+      click_on "commit"
+
+      visit chat_url (chats(:one).id)
+    end
+
+    username = Faker::Name.name   
+    username2 = Faker::Name.name   
+
+    fill_in "chattext", with: 'Hello, i am ' + username
+    click_on 'sendmessage'
+
+    using_session("user2") do
+      assert_text 'Hello, i am ' + username
+      fill_in "chattext", with: 'Hi ' + username2
+      click_on 'sendmessage'
+    end
+
+    assert_text 'Hi ' + username2
+    fill_in "chattext", with: 'I am not ' + username2
+    click_on 'sendmessage'
+
+    using_session("user2") do
+      assert_text 'I am not ' + username2
+    end
+  end
 end
