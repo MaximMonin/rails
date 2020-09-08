@@ -18,7 +18,7 @@ module App
     config.i18n.locale = :en
 
     config.action_cable.mount_path = '/websocket'
-    config.action_cable.allowed_request_origins = ['https://' + ENV['VIRTUAL_HOST'], 'http://railsnginx']
+    config.action_cable.allowed_request_origins = ['https://' + ENV['VIRTUAL_HOST'], 'http://railstest']
 
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
@@ -39,11 +39,20 @@ module App
     config.action_mailer.deliver_later_queue_name = 'mailers'
 
     config.active_job.queue_adapter = :sidekiq
+    config.active_storage.queues.analysis = :default
+    config.active_storage.queues.purge = :default
+
+    config.active_storage.queues.analysis = :default
     
     config.session_store :cookie_store, key: '_rails_app_session'
+    config.cache_store = :redis_cache_store, {url: ENV.fetch("REDIS_URL", "redis://localhost:6379/1")}
 
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc
+    config.beginning_of_week = :monday
+
+    Rails.application.config.hosts << ENV['VIRTUAL_HOST']
+
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
