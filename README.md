@@ -9,6 +9,8 @@ ActiveStorage with immediate uploads used for user avatars
 DropZone, Carrierwave used for mass files uploads and image processing   
 ActiveJob and Sidekiq used for video processing
 
+Many integration and system tests included with Minitest, capybara and Selenium
+
 ## Installation
 
 It is pure project w/o rails kernel libraries.   
