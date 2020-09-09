@@ -45,7 +45,24 @@ module App
     config.active_storage.queues.analysis = :default
     
     config.session_store :cookie_store, key: '_rails_app_session'
-    config.cache_store = :redis_cache_store, {url: ENV.fetch("REDIS_URL", "redis://localhost:6379/1")}
+
+    cache_servers = ENV.fetch("REDIS_URL", "redis://localhost:6379/1")
+    config.action_controller.perform_caching = true
+    config.action_controller.enable_fragment_cache_logging = true
+
+    config.cache_store = :redis_cache_store, { url: cache_servers,
+ 
+      connect_timeout:    30,  # Defaults to 20 seconds
+      read_timeout:       0.2, # Defaults to 1 second
+      write_timeout:      0.2, # Defaults to 1 second
+      reconnect_attempts: 1,   # Defaults to 0
+ 
+      error_handler: -> (method:, returning:, exception:) {
+        # Report errors to Sentry as warnings
+        Raven.capture_exception exception, level: 'warning',
+         tags: { method: method, returning: returning }
+      }
+    }
 
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc
