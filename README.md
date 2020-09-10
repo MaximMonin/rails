@@ -4,12 +4,13 @@ Basic architecture for Ruby on Rails framework + Vue.js
 Includes Auth, registration, internalization, chatting rooms and my file's upload/management   
 Everywhere 3 languages supported (english, russian, ukranian)
 
-ActionCable used for chat rooms with combination of vue.js frontend   
+ActionCable and broadcasting used for chat rooms with combination of vue.js frontend   
 ActiveStorage with immediate uploads used for user avatars   
 DropZone, Carrierwave used for mass files uploads and image processing   
-ActiveJob and Sidekiq used for video processing
+ActiveJob and Sidekiq used for video processing   
+Redis Caching used in User files controller
 
-Many integration and system tests included with Minitest, capybara and Selenium
+Many integration and system tests included with Minitest, Capybara and Selenium   
 
 ## Installation
 
