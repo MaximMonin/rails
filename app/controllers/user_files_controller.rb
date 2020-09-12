@@ -20,7 +20,7 @@ class UserFilesController < ApplicationController
     user = current_user
     filesupdated = user.files_updated_at
     filesupdated = DateTime.now if filesupdated.nil?
-    'userfiles-' + user.id.to_s + '-' + filesupdated.utc.strftime("%Y%m%d%H%M%S%6N") + '-' + params[:page] + "-" + params[:id] 
+    'userfiles-' + user.id.to_s + '-' + filesupdated.utc.strftime("%Y%m%d%H%M%S%6N") + '-' + params[:page].to_s + "-" + params[:id].to_s 
   end                                                      
 
   def doc
