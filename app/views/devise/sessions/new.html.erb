@@ -16,22 +16,18 @@
     <%= f.button :submit, t(".sign_in"), class: 'btn btn-primary' %>
   </div>
 
-  <%= link_to('/auth/facebook', {:class => "btn btn-primary"}) do %>
-    Facebook OAuth
-  <%- end %>
-  <%= link_to('/auth/google_oauth2', {:class => "btn btn-primary"}) do %>
-    Google OAuth
-  <%- end %>
-  <%= link_to('/auth/twitter', {:class => "btn btn-primary"}) do %>
-    Twitter OAuth
-  <%- end %>
-  <%= link_to('/auth/vkontakte', {:class => "btn btn-primary"}) do %>
-    Vkontakte OAuth
-  <%- end %>
-  <%= link_to('/auth/github', {:class => "btn btn-primary"}) do %>
-    Github OAuth
-  <%- end %>
-
+  <div id="remote" class="container" style="border-radius: 0.25rem;box-shadow: 0 0 0 1px #dbdbdb;padding: 15px;margin-top: 20px;">
+       <label class="label-bold">
+          Sign in with
+       </label>
+       <div id="services" class="box">
+           <a href="/auth/facebook" class="socials" style="padding:15px;display:inline-block"><%= image_tag "facebook_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Facebook" %>Facebook</a>
+           <a href="/auth/google_oauth2" class="socials" style="padding:15px;display:inline-block"><%= image_tag "google_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Google" %>Google</a>
+           <a href="/auth/twitter" class="socials" style="padding:15px;display:inline-block"><%= image_tag "twitter_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Twitter" %>Twitter</a>
+           <a href="/auth/vkontakte" class="socials" style="padding:15px;display:inline-block"><%= image_tag "vk_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Vkontakte" %>Vkontakte</a>
+           <a href="/auth/github" class="socials" style="padding:15px;display:inline-block"><%= image_tag "github_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Github" %>Github</a>
+       </div>
+  </div>
 <% end %>
 
 <%= render "devise/shared/links" %>

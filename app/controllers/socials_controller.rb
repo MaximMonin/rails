@@ -1,22 +1,91 @@
 class SocialsController < ApplicationController
- def index
- end
+  before_action :authenticate_user!, :except => [:create]
+
+  def index
+    @socials = current_user.socials.all
+  end
+  def destroy
+    # remove an authentication service linked to the current user
+    @social = current_user.socials.find(params[:id])
+    @social.destroy
  
- def create
-   omniauth = request.env['omniauth.auth']
-   provider = omniauth['provider']
-   uid = omniauth['uid']
-   email = ''
-   username = ''
+    redirect_to socials_path
+  end
+ 
+  def create
+    ActiveRecord::Base.connected_to(role: :writing) do
+      omniauth = request.env['omniauth.auth']
+      provider = omniauth['provider']
+      uid = omniauth['uid']
+      email = omniauth['info']['email']
+      name = omniauth['info']['name']
+      photo = omniauth['info']['image']
+  
+      # continue only if provider and uid exist
+      if uid != '' and provider != ''     
+        # nobody can sign in twice, nobody can sign up while being signed in (this saves a lot of trouble)
+        if !user_signed_in?    
+          # check if user has already signed in using this service provider and continue with sign in process if yes
+          auth = Social.find_by_provider_and_uid(provider, uid)
+          if auth
+            flash[:notice] = 'Signed in successfully via ' + provider.capitalize + '.'
+            sign_in_and_redirect(:user, auth.user)
+          else
+            # check if this user is already registered with this email address; get out if no email has been provided
+            if email != ''
+              # search for a user with this email address
+              existinguser = User.find_by_email(email)
+              if existinguser
+                # map this new login method via a service provider to an existing account if the email address is the same
+                existinguser.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth)
+                flash[:notice] = 'Sign in via ' + provider.capitalize + ' has been added to your account ' + existinguser.email + '. Signed in successfully!'
+                sign_in_and_redirect(:user, existinguser)
+              else
+                # let's create a new user: register this user and add this authentication method for this user
+                name = name[0, 39] if name.length > 39             # otherwise our user validation will hit us
+   
+                # new user, set email, a random password and take the name from the authentication service
+                user = User.new :email => email, :password => SecureRandom.hex(10), :username => name, :has_local_password => false
+   
+                # add this authentication service to our new user
+                user.socials.build(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth)
+   
+                # do not send confirmation email, we directly save and confirm the new record
+                user.skip_confirmation!
+                user.save!
+                user.confirm
+   
+                # flash and sign in
+                flash[:notice] = 'Your account has been created via ' + provider.capitalize + '. In your profile you can change your personal information and add a local password.'
+                sign_in_and_redirect(:user, user)
+              end
+            else
+              flash[:alert] =  provider.capitalize + ' can not be used to sign-up as no valid email address has been provided. Please use another authentication provider or use local sign-up. If you already have an account, please sign-in and add ' + proviver.capitalize + ' from your profile.'
+              redirect_to new_user_session_path
+            end
+          end
+        else
+          # the user is currently signed in
+          
+          # check if this service is already linked to his/her account, if not, add it
+          auth = Social.find_by_provider_and_uid(provider, uid)
+          if !auth
+            current_user.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth )
+            flash[:notice] = 'Sign in via ' + provider.capitalize + ' has been added to your account.'
+            redirect_to socials_path
+          else
+            flash[:notice] = service_route.capitalize + ' is already linked to your account.'
+            redirect_to socials_path
+          end  
+        end  
+      else
+        flash[:alert] =  provider.capitalize + ' returned invalid data for the user id.'
+        redirect_to new_user_session_path
+      end
+    end
+  end
 
-   if provider == 'facebook' || provider == 'twitter' || provider == 'vkontakte' || provider == 'github'
-     email = omniauth['info']['email']
-     username = omniauth['info']['name']
-   end
-   render :plain => request.env["omniauth.auth"].to_yaml
- end
-
- def failure
+  def failure
     set_flash_message :alert, :failure, kind: OmniAuth::Utils.camelize(failed_strategy.name), reason: failure_message
     redirect_to new_user_session_path
   end
@@ -42,13 +111,5 @@ class SocialsController < ApplicationController
     error ||= exception.error         if exception.respond_to?(:error)
     error ||= (request.respond_to?(:get_header) ? request.get_header("omniauth.error.type") : request.env["omniauth.error.type"]).to_s
     error.to_s.humanize if error
-  end
-
-  def after_omniauth_failure_path_for(scope)
-    new_session_path(scope)
-  end
-
-  def translation_scope
-    'devise.omniauth_callbacks'
   end
 end

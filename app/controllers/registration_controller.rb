@@ -5,6 +5,9 @@ class RegistrationController < Devise::RegistrationsController
   end
 
   def update
+    if not current_user.has_local_password
+      params[resource_name].delete(:current_password)
+    end
     super
     @user = current_user
     @user.avatar = url_for(@user.photo.variant(resize_to_limit: [300, 300]).processed) if @user.photo.attached?
@@ -45,6 +48,16 @@ class RegistrationController < Devise::RegistrationsController
       render json: {status: 'Ok'}
     else
       render json: {status: 'wrong code'}
+    end
+  end
+
+  protected
+
+  def update_resource(resource, params)
+    if not current_user.has_local_password
+      resource.update_without_password(params)
+    else
+      super
     end
   end
 
