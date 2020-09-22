@@ -15,6 +15,23 @@
   <div class="form-actions">
     <%= f.button :submit, t(".sign_in"), class: 'btn btn-primary' %>
   </div>
+
+  <%= link_to('/auth/facebook', {:class => "btn btn-primary"}) do %>
+    Facebook OAuth
+  <%- end %>
+  <%= link_to('/auth/google_oauth2', {:class => "btn btn-primary"}) do %>
+    Google OAuth
+  <%- end %>
+  <%= link_to('/auth/twitter', {:class => "btn btn-primary"}) do %>
+    Twitter OAuth
+  <%- end %>
+  <%= link_to('/auth/vkontakte', {:class => "btn btn-primary"}) do %>
+    Vkontakte OAuth
+  <%- end %>
+  <%= link_to('/auth/github', {:class => "btn btn-primary"}) do %>
+    Github OAuth
+  <%- end %>
+
 <% end %>
 
 <%= render "devise/shared/links" %>
