@@ -46,7 +46,7 @@ class SocialsController < ApplicationController
    
                 # new user, set email, a random password and take the name from the authentication service
                 user = User.new :email => email, :password => SecureRandom.hex(10), :username => name, :has_local_password => false
-   
+
                 # add this authentication service to our new user
                 user.socials.build(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth)
    
@@ -54,6 +54,14 @@ class SocialsController < ApplicationController
                 user.skip_confirmation!
                 user.save!
                 user.confirm
+
+                # Attach avatar from social network
+                url = URI.parse(photo)
+                filename = File.basename(url.path)
+                file = URI.open(photo)
+                user.photo.attach(io: file, filename: filename)
+                user.avatar = url_for(user.photo.variant(resize_to_limit: [300, 300]).processed) if user.photo.attached?
+                user.save
    
                 # flash and sign in
                 flash[:notice] = t(".your_account_has_been_created_via") + ' ' + provider.capitalize + '. ' + t(".createinfo")
