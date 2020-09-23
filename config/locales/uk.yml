@@ -16,6 +16,11 @@ uk:
         enter_code: Введіть код
         send_code: Послати код
         sms_code_is_not_valid: Код СМС не вірний
+      new:
+        sign_up_with: Реєстрація через
+    sessions:
+      new: 
+        sign_in_with: Увійти через
   welcome:
     index:
       welcome_to_ruby: Вітаємо у програмі Ruby on rails + Vue.js
