@@ -28,17 +28,17 @@ class SocialsController < ApplicationController
           # check if user has already signed in using this service provider and continue with sign in process if yes
           auth = Social.find_by_provider_and_uid(provider, uid)
           if auth
-            flash[:notice] = 'Signed in successfully via ' + provider.capitalize + '.'
+            flash[:notice] = t(".signed_in_successfully_via") + ' ' + provider.capitalize + '.'
             sign_in_and_redirect(:user, auth.user)
           else
             # check if this user is already registered with this email address; get out if no email has been provided
-            if email != ''
+            if email != '' and name != ''
               # search for a user with this email address
               existinguser = User.find_by_email(email)
               if existinguser
                 # map this new login method via a service provider to an existing account if the email address is the same
                 existinguser.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth)
-                flash[:notice] = 'Sign in via ' + provider.capitalize + ' has been added to your account ' + existinguser.email + '. Signed in successfully!'
+                flash[:notice] = t(".sign_in_via") + ' ' + provider.capitalize + ' ' + t(".has_been_added_to_your_account") + ' ' + existinguser.email + '. ' + t(".signed_in_successfully")
                 sign_in_and_redirect(:user, existinguser)
               else
                 # let's create a new user: register this user and add this authentication method for this user
@@ -56,11 +56,11 @@ class SocialsController < ApplicationController
                 user.confirm
    
                 # flash and sign in
-                flash[:notice] = 'Your account has been created via ' + provider.capitalize + '. In your profile you can change your personal information and add a local password.'
+                flash[:notice] = t(".your_account_has_been_created_via") + ' ' + provider.capitalize + '. ' + t(".createinfo")
                 sign_in_and_redirect(:user, user)
               end
             else
-              flash[:alert] =  provider.capitalize + ' can not be used to sign-up as no valid email address has been provided. Please use another authentication provider or use local sign-up. If you already have an account, please sign-in and add ' + proviver.capitalize + ' from your profile.'
+              flash[:alert] =  provider.capitalize + ' ' + t(".error_no_email") + ' ' + proviver.capitalize + ' ' + t(".error_no_email2")
               redirect_to new_user_session_path
             end
           end
@@ -71,15 +71,15 @@ class SocialsController < ApplicationController
           auth = Social.find_by_provider_and_uid(provider, uid)
           if !auth
             current_user.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth )
-            flash[:notice] = 'Sign in via ' + provider.capitalize + ' has been added to your account.'
+            flash[:notice] = t(".sign_in_via") + ' ' + provider.capitalize + ' ' + t(".has_been_added_to_your_account") + '.'
             redirect_to socials_path
           else
-            flash[:notice] = service_route.capitalize + ' is already linked to your account.'
+            flash[:notice] = service_route.capitalize + ' ' + t(".is_already_linked_to_your_account") + '.'
             redirect_to socials_path
           end  
         end  
       else
-        flash[:alert] =  provider.capitalize + ' returned invalid data for the user id.'
+        flash[:alert] =  provider.capitalize + ' ' + t(".error_invalid_uid") 
         redirect_to new_user_session_path
       end
     end

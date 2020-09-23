@@ -93,4 +93,15 @@ en:
       are_you_sure_you_want_to_cancel_upload: Are you sure you want to cancel upload?
       upload_canceled: Upload Canceled
       delete_upload: Delete Upload
-      
+  socials:
+    create:
+      signed_in_successfully_via: Signed in successfully via
+      sign_in_via: Sign in via
+      has_been_added_to_your_account: has been added to your account
+      signed_in_successfully: Signed in successfully!
+      your_account_has_been_created_via: Your account has been created via
+      createinfo: In your profile you can change your personal information and add a local password.
+      error_no_email: can not be used to sign-up as no valid email address has been provided. Please use another authentication provider or use local sign-up. If you already have an account, please sign-in and add
+      error_no_email2: from your profile.
+      error_invalid_uid: returned invalid data for the user id.
+      is_already_linked_to_your_account: is already linked to your account
