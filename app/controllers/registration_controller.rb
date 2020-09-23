@@ -54,7 +54,11 @@ class RegistrationController < Devise::RegistrationsController
   protected
 
   def update_resource(resource, params)
-    if not current_user.has_local_password
+    if not resource.has_local_password
+      if params[:password].present? && params[:password_confirmation].present? && params[:password] == params[:password_confirmation] && params[:password].length >= 6 
+        resource.encrypted_password = Devise::Encryptor.digest(User, params[:password]) 
+        resource.has_local_password = true
+      end
       resource.update_without_password(params)
     else
       super

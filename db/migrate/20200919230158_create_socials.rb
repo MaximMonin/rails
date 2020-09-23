@@ -1,7 +1,7 @@
 class CreateSocials < ActiveRecord::Migration[6.0]
   def change
     create_table :socials do |t|
-      t.integer :user_id
+      t.references :user, null: false, foreign_key: true
       t.string :provider
       t.string :uid
       t.string :username
@@ -10,5 +10,8 @@ class CreateSocials < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index :socials, [:user_id, :provider, :uid], unique: true
+    add_index :socials, :provider, unique: false
+    add_index :socials, :uid, unique: false
   end
 end
