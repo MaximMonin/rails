@@ -6,6 +6,7 @@ class CreateSocials < ActiveRecord::Migration[6.0]
       t.string :uid
       t.string :username
       t.string :email
+      t.string :weblink
       t.column :data, :json
 
       t.timestamps

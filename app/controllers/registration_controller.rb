@@ -1,6 +1,7 @@
 class RegistrationController < Devise::RegistrationsController
   def edit
     session.delete(:otp)
+    @socials = current_user.socials.all
     super
   end
 

@@ -1,15 +1,12 @@
 class SocialsController < ApplicationController
   before_action :authenticate_user!, :except => [:create]
 
-  def index
-    @socials = current_user.socials.all
-  end
   def destroy
     # remove an authentication service linked to the current user
     @social = current_user.socials.find(params[:id])
     @social.destroy
  
-    redirect_to socials_path
+    redirect_back fallback_location: root_path
   end
  
   def create
@@ -80,10 +77,10 @@ class SocialsController < ApplicationController
           if !auth
             current_user.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth )
             flash[:notice] = t(".sign_in_via") + ' ' + provider.capitalize + ' ' + t(".has_been_added_to_your_account") + '.'
-            redirect_to socials_path
+            redirect_to root_path
           else
-            flash[:notice] = service_route.capitalize + ' ' + t(".is_already_linked_to_your_account") + '.'
-            redirect_to socials_path
+            flash[:notice] = provider.capitalize + ' ' + t(".is_already_linked_to_your_account") + '.'
+            redirect_to root_path
           end  
         end  
       else

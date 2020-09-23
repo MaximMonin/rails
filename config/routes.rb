@@ -10,7 +10,8 @@ Rails.application.routes.draw do
     post '/users/verifyphone' => "registration#verifyphone"
   end 
   get "/auth/:provider/callback" => "socials#create"
-  resources :socials, :only => [:index, :create, :destroy]
+  resources :socials, :only => [:destroy]
+
   get  '/locale/:locale'      => "locale#set"
   get  '/initstore'           => "welcome#initstore"
   post '/upload/local'        => "upload#new"
