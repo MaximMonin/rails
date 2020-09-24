@@ -1,18 +1,19 @@
 # rails
 Basic architecture for Ruby on Rails framework + Vue.js
 
-Includes Auth, registration, internalization, chatting rooms and my file's upload/management   
+Includes Auth, Registration, Internalization, Chatting rooms and My file's Upload/Management   
 Everywhere 3 languages supported (english, russian, ukranian)
 
-ActionCable and broadcasting used for chat rooms with combination of vue.js frontend   
+Devise + Omniauth (with 5 social networks) is used for registration   
+ActionCable and Broadcasting used for chat rooms with combination of vue.js frontend   
 ActiveStorage with immediate uploads used for user avatars   
 DropZone, Carrierwave used for mass files uploads and image processing   
 ActiveJob and Sidekiq used for video processing   
-Redis Caching used in User files controller   
+Redis Caching used in Userfiles controller   
 Postgres Replication with read/write routing to master/replica db implemented   
 ActiveSupport:Subscriber and prometheus exporter used for integration with Prometheus and Grafana. Metrics for http controllers, sidekiq server, sql queries included
 
-Many integration and system tests included with Minitest, Capybara and Selenium   
+Many Integration and System tests included with Minitest, Capybara and Selenium Hub   
 
 ## Installation
 
