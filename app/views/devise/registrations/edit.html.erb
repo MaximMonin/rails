@@ -1,17 +1,5 @@
 <h2><%= t(".header") %></h2>
 
-<ul class="nav nav-tabs">
-   <li class="nav-item">
-      <a class="nav-link active" dusk="photo-tab" data-toggle="tab" href="#main"><%= t(".account") %></a>
-   </li>
-   <li class="nav-item">
-     <a class="nav-link" dusk="video-tab" data-toggle="tab" href="#social"><%= t(".social_networks") %></a>
-   </li>
- </ul>
-
-<div class="tab-content">
-   <div class="tab-pane fade show active" id="main">
-
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "card", style: "padding: 20px" }) do |f| %>
   <%= f.error_notification %>
 
@@ -83,14 +71,58 @@
   </div>
 <% end %>
 
-<p><%= t(".unhappy") %> <%= link_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: t(".are_you_sure") }, method: :delete %></p>
+  <% if @socials.count > 0 %>
+  <div id="linknew" class="container social-box">
+       <label class="label-bold">
+           <%= t(".linked_accounts") %>
+       </label>
+   
+       <div id="services" class="box">
+       <% @socials.each do |social| %>  
+         <div class="social-row">  
+             <a href="<%= social.weblink %>" class="social-item2">
+                <%= image_tag "#{social.provider}_64.png", :size => "32x32", :alt => "#{social.provider}" %>
+                <%= social.provider.capitalize %> 
+             </a>
+             <label ><%= social.username %> <%= social.email if social.email %></label>
+             <% @socials.count == 1 ? @msg = 'Removing the last account linked might lock you out of your account if you do not know the email/password sign-in of your local account!' : @msg = '' %>
+             <%= link_to "Remove this account", social, :confirm => 'Are you sure you want to remove link to social network? ' + @msg, :method => :delete, :class => "remove" %>
+         </div>  
+       <% end %>
+       </div>
+  </div>
+  <% end %>
 
-   </div>
-     <div class="tab-pane fade" id="social">
-         <%= render partial: 'social' %>
-     </div>
-   </div>
-</div>
+  <% if @socials.count < 5 %>
+    <div id="linknew" class="container social-box">
+       <label class="label-bold">
+         <%= t(".link_social_account") %>
+       </label>
+       <div id="services" class="box">
+         <% if @socials.find {|social| social.provider.include?("facebook")} %>
+         <% else %>
+           <a href="/auth/facebook" class="social-item"><%= image_tag "facebook_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Facebook" %>Facebook</a>
+         <% end %>
+         <% if @socials.find {|social| social.provider.include?("google")} %>
+         <% else %>
+           <a href="/auth/google" class="social-item"><%= image_tag "google_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Google" %>Google</a>
+         <% end %>
+         <% if @socials.find {|social| social.provider.include?("twitter")} %>
+         <% else %>
+           <a href="/auth/twitter" class="social-item"><%= image_tag "twitter_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Twitter" %>Twitter</a>
+         <% end %>
+         <% if @socials.find {|social| social.provider.include?("vkontakte")} %>
+         <% else %>
+           <a href="/auth/vkontakte" class="social-item"><%= image_tag "vkontakte_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Vkontakte" %>Vkontakte</a>
+         <% end %>
+         <% if @socials.find {|social| social.provider.include?("github")} %>
+         <% else %>
+           <a href="/auth/github" class="social-item"><%= image_tag "github_64.png", :size => "64x64", :style => "padding: 5px", :alt => "Github" %>Github</a>
+         <% end %>
+       </div>
+    </div>
+  <% end %>
+  <p><%= t(".unhappy") %> <%= link_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: t(".are_you_sure") }, method: :delete %></p>
 
 <% content_for :js do %>
 <script>

@@ -17,6 +17,7 @@ class SocialsController < ApplicationController
       email = omniauth['info']['email']
       name = omniauth['info']['name']
       photo = omniauth['info']['image']
+      weblink = getlink(provider, omniauth)
   
       # continue only if provider and uid exist
       if uid != '' and provider != ''     
@@ -34,7 +35,7 @@ class SocialsController < ApplicationController
               existinguser = User.find_by_email(email)
               if existinguser
                 # map this new login method via a service provider to an existing account if the email address is the same
-                existinguser.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth)
+                existinguser.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth, :weblink => weblink)
                 flash[:notice] = t(".sign_in_via") + ' ' + provider.capitalize + ' ' + t(".has_been_added_to_your_account") + ' ' + existinguser.email + '. ' + t(".signed_in_successfully")
                 sign_in_and_redirect(:user, existinguser)
               else
@@ -45,7 +46,7 @@ class SocialsController < ApplicationController
                 user = User.new :email => email, :password => SecureRandom.hex(10), :username => name, :has_local_password => false
 
                 # add this authentication service to our new user
-                user.socials.build(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth)
+                user.socials.build(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth, :weblink => weblink)
    
                 # do not send confirmation email, we directly save and confirm the new record
                 user.skip_confirmation!
@@ -75,12 +76,12 @@ class SocialsController < ApplicationController
           # check if this service is already linked to his/her account, if not, add it
           auth = Social.find_by_provider_and_uid(provider, uid)
           if !auth
-            current_user.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth )
+            current_user.socials.create(:provider => provider, :uid => uid, :username => name, :email => email, :data => omniauth, :weblink => weblink )
             flash[:notice] = t(".sign_in_via") + ' ' + provider.capitalize + ' ' + t(".has_been_added_to_your_account") + '.'
-            redirect_to root_path
+            redirect_to edit_user_registration_path
           else
             flash[:notice] = provider.capitalize + ' ' + t(".is_already_linked_to_your_account") + '.'
-            redirect_to root_path
+            redirect_to edit_user_registration_path
           end  
         end  
       else
@@ -116,5 +117,29 @@ class SocialsController < ApplicationController
     error ||= exception.error         if exception.respond_to?(:error)
     error ||= (request.respond_to?(:get_header) ? request.get_header("omniauth.error.type") : request.env["omniauth.error.type"]).to_s
     error.to_s.humanize if error
+  end
+
+  def getlink(provider, data)
+    weblink = ''
+    urls = data['info']['urls'] if data['info']['urls'].present?
+    if provider == 'facebook'
+      weblink = 'https://facebook.com'
+    end
+    if provider == 'google'
+      weblink = 'https://account.google.com'
+    end
+    if provider == 'twitter'
+      weblink = 'https://twitter.com'
+      weblink = urls['Twitter'] if urls && urls['Twitter'].present?
+    end
+    if provider == 'vkontakte'
+      weblink = 'https://vk.com'
+      weblink = urls['Vkontakte'] if urls && urls['Vkontakte'].present?
+    end
+    if provider == 'github'
+      weblink = 'https://github.com'
+      weblink = urls['GitHub'] if urls && urls['GitHub'].present?
+    end
+    return weblink
   end
 end
