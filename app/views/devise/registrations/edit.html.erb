@@ -71,7 +71,7 @@
   </div>
 <% end %>
 
-  <% if @socials.count > 0 %>
+<% if @socials.count > 0 %>
   <div id="linknew" class="container social-box">
        <label class="label-bold">
            <%= t(".linked_accounts") %>
@@ -85,15 +85,15 @@
                 <%= social.provider.capitalize %> 
              </a>
              <label ><%= social.username %> <%= social.email if social.email %></label>
-             <% @socials.count == 1 ? @msg = 'Removing the last account linked might lock you out of your account if you do not know the email/password sign-in of your local account!' : @msg = '' %>
-             <%= link_to "Remove this account", social, :confirm => 'Are you sure you want to remove link to social network? ' + @msg, :method => :delete, :class => "remove" %>
+             <% @socials.count == 1 ? @msg = t(".remove_message2") : @msg = '' %>
+             <%= link_to t(".remove_this_account"), social, data: { confirm: t(".remove_message1") + ' ' + @msg }, method: :delete %>
          </div>  
        <% end %>
        </div>
   </div>
-  <% end %>
+<% end %>
 
-  <% if @socials.count < 5 %>
+<% if @socials.count < 5 %>
     <div id="linknew" class="container social-box">
        <label class="label-bold">
          <%= t(".link_social_account") %>
@@ -121,8 +121,8 @@
          <% end %>
        </div>
     </div>
-  <% end %>
-  <p><%= t(".unhappy") %> <%= link_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: t(".are_you_sure") }, method: :delete %></p>
+<% end %>
+<p><%= t(".unhappy") %> <%= link_to t(".cancel_my_account"), registration_path(resource_name), data: { confirm: t(".are_you_sure") }, method: :delete %></p>
 
 <% content_for :js do %>
 <script>

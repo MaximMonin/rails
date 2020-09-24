@@ -47,6 +47,11 @@ en:
         enter_code: Enter Code
         send_code: Send Code
         sms_code_is_not_valid: Sms code is not valid
+        linked_accounts: Linked accounts
+        link_social_account: Link social account
+        remove_this_account: Remove this account
+        remove_message1: Are you sure you want to remove link to social network?
+        remove_message2: Removing the last account linked might lock you out of your account if you do not know the email/password sign-in of your local account!
       new:
         sign_up_with: Sign up with
     sessions:
