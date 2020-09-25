@@ -11,6 +11,7 @@ DropZone, Carrierwave used for mass files uploads and image processing
 ActiveJob and Sidekiq used for video processing   
 Redis Caching used in Userfiles controller   
 Postgres Replication with read/write routing to master/replica db implemented   
+Database changes with auditing gem   
 ActiveSupport:Subscriber and prometheus exporter used for integration with Prometheus and Grafana. Metrics for http controllers, sidekiq server, sql queries included
 
 Many Integration and System tests included with Minitest, Capybara and Selenium Hub   
