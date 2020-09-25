@@ -9,8 +9,8 @@ class User < ApplicationRecord
   has_many :chat_messages, dependent: :destroy, inverse_of: :user
   has_many :user_files, dependent: :destroy, inverse_of: :user
   has_many :socials, dependent: :destroy, inverse_of: :user
-
   has_one_attached :photo
+  audited
 
   private
 
