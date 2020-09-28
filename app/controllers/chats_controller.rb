@@ -39,6 +39,19 @@ class ChatsController < ApplicationController
     end
   end
 
+  def search  
+    @chat = params[:id] if params[:id].present?
+    query = params[:search][:query] if params[:search][:query]
+
+    if query
+      result = ChatMessage.search(query, @chat)
+      @messages = result.records.joins(:user, :chat).select("chat_messages.*, chats.name as chatname, users.username")
+    else
+      @messages = nil
+    end
+    render :index
+  end
+
   protected
 
   def load_entities

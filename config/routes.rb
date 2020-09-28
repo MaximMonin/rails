@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :user_files
   resources :chat_messages
-  resources :chats
+  resources :chats do
+    collection do
+      get :search
+    end
+  end
 
   devise_for :users, :controllers => {:registrations => "registration"}
   devise_scope :user do

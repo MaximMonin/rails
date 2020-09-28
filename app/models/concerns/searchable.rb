@@ -6,12 +6,13 @@ module Searchable
     include Elasticsearch::Model::Callbacks
 
     def as_indexed_json(_options = {})
-      as_json(only: %i[chat_id message files created_at])
+      as_json(only: %i[chat_id user_id message files created_at])
     end
 
     settings settings_attributes do
       mappings dynamic: false do
         indexes :chat_id, type: :long
+        indexes :user_id, type: :long
         indexes :message, type: :text, analyzer: :autocomplete
         indexes :files, type: :text, analyzer: :autocomplete
         indexes :created_at, type: :date
