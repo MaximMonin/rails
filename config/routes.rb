@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, :controllers => {:registrations => "registration"}
+  devise_for :users, :controllers => {:registrations => "registration", :confirmations => "confirmations"}
   devise_scope :user do
     post '/users/photo'       => "registration#updatephoto"
     post '/users/checkphone'  => "registration#checkphone"
