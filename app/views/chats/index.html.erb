@@ -12,27 +12,21 @@
         <%= t(".chat_instruction") %>
       </p>
     </div>
-    <%= form_for :search, url: search_chats_path, method: :get do |form| %>
-       <div style="display: flex;">
-         <%= form.text_field :query, class: "form-control string required", value: params[:search].presence && params[:search][:query] %>
-         <button class="btn btn-primary" style="margin-left: 10px;">Search</button>
-      </div>
-    <% end %>
     <% unless @messages.nil? %>
       <p>
       </p>
       <% if @messages.empty? %>
-        <h5>No messages found matching your query: <%= params[:search][:query] %></h5>
+        <h5><%= t(".no_messages_found") %>: <%= params[:search][:query] %></h5>
       <% else %>
-      <h5>Search results:</h5>
+      <h5><%= t(".search_results") %>:</h5>
       <table style="width: 100%;">
         <thead>
           <tr>
-            <th>User</th>
-            <th>Message</th>
-            <th>Chat</th>
-            <th>When</th>
-            <th>Action</th>
+            <th><%= t(".user") %></th>
+            <th><%= t(".message") %></th>
+            <th><%= t(".chat") %></th>
+            <th><%= t(".when") %></th>
+            <th><%= t(".action") %></th>
           </tr>
         </thead>
         <tbody>
@@ -42,7 +36,7 @@
             <td><%= message.message %></td>
             <td><%= message.chatname %></td>
             <td><%= message.created_at %></td>
-            <td><%= link_to 'View', chat_path(message.chat_id) %></td>
+            <td><%= link_to t(".view"), chat_path(message.chat_id) %></td>
           </tr>
           <% end %>
         <tbody>

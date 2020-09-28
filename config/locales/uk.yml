@@ -46,6 +46,7 @@ uk:
       create_a_chat_room: Створити кімнату спілкування
       edit_chat_room: Редагувати кімнату спілкування
       there_are_no_chat_rooms: Немає кімнат для спілкування
+      search: Пошук
     form:
       save: Зберегти
     edit:
@@ -53,6 +54,14 @@ uk:
     index:
       welcome_to_chat: Ласкаво просимо в кімнати спілкування
       chat_instruction: Підключіться до однієї з кімнат або створіть нову
+      no_messages_found: Не знайдено жодного повідомлення за запитом
+      search_results: Результати пошуку
+      user: Користувач
+      message: Повідомлення
+      chat: Чат
+      when: Коли
+      action: Дія
+      view: Дивитися
     new:
       new_chat_room: Нова кімната спілкування
   user_files:

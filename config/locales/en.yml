@@ -77,6 +77,7 @@ en:
       create_a_chat_room: Create chat room
       edit_chat_room: Edit chat room
       there_are_no_chat_rooms: There are no chat rooms
+      search: Search
     form:
       save: Save
     edit:
@@ -84,6 +85,14 @@ en:
     index:
       welcome_to_chat: Welcome to chat
       chat_instruction: Join a chat room or create new chat room
+      no_messages_found: No messages found matching your query
+      search_results: Search results
+      user: User
+      message: Message
+      chat: Chat
+      when: When
+      action: Action
+      view: View
     new:
       new_chat_room: New Chat Room
   user_files:
